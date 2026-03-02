@@ -30,22 +30,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Backend
+      - name: Build and Push Backend Image
         uses: docker/build-push-action@v4
         with:
           context: ./springboot/app
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/springboot-app:latest
 
-      - name: Build and Push Frontend
+      - name: Build and Push Frontend Image
         uses: docker/build-push-action@v4
         with:
           context: ./angular-app
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/angular-app:latest
 
-      - name: Test deployment
+      - name: Test Deployment with Docker Compose
         run: |
           docker compose up -d
-          sleep 40
+          sleep 20
           docker ps
